@@ -1,0 +1,30 @@
+.Menu {
+    display: flex;
+    width: 180px;
+    min-width: 180px;
+    height: 100%;
+    border-style: none;
+    background-color: #202020;
+    color: white;
+    flex-flow: column;
+    padding: 10px;
+}
+
+.button {
+    background-color: #202020;
+    color: white;
+    width: 100%;
+    font-size: 1.0em;
+    cursor: pointer;
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 10px 0px 0px 10px;
+}
+
+.button.pressed{
+    background-color: dodgerblue;
+}
+
+.button:hover {
+    color: wheat;
+}

@@ -1,0 +1,14 @@
+.panelHeader {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-between;
+    font-size: 0.6em;
+    font-weight: 700;
+    background-color: lightgray;
+    color: black;
+    padding: 2px;
+}
+
+.closeButton {
+    cursor: pointer;
+}
