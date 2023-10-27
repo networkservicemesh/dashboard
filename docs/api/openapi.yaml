@@ -28,22 +28,16 @@ paths:
           content:
             application/json:
               schema:
-                title: Sample
-                type: object
-                properties:
-                  placeholder:
-                    type: string
-                    description: Placeholder description
+                $ref: '#/components/schemas/GraphData'
 
         404:
           description: Not found response
           content:
             text/plain:
               schema:
-                title: Weather not found
-                type: string
-                example: Not found
-  /workloads:
+                $ref: '#/components/schemas/404'
+  
+  /workload:
     get:
       tags:
       - Workloads
@@ -54,6 +48,7 @@ paths:
       - name: id
         in: query
         description: "Workload's identifier"
+        required: true
         schema:
           type: string
       responses:
@@ -62,42 +57,128 @@ paths:
           content:
             application/json:
               schema:
-                title: Sample
-                type: object
-                properties:
-                  placeholder:
-                    type: string
-                    description: Placeholder description
-
+                $ref: '#/components/schemas/WorkloadItem'
         404:
           description: Not found response
           content:
             text/plain:
               schema:
-                title: Workload not found
-                type: string
-                example: Not found
+                $ref: '#/components/schemas/404'
 
 components:
   schemas:
+    404:
+      title: Error 404 response
+      type: string
+      example: Not found
+    GraphData:
+      title: GraphData
+      type: object
+      properties:
+        nodes:
+          type: array
+          items:
+             $ref: '#/components/schemas/GraphNode'
+          description: Simple nodes
+        nodeGroups:
+          type: array
+          items:
+             $ref: '#/components/schemas/GraphNodeGroup'
+          description: Composite nodes (node groups)
+        edges:
+          type: array
+          items:
+             $ref: '#/components/schemas/GraphEdge'
+          description: Edges
+    GraphNode:
+      title: GraphNode
+      type: object
+      properties:
+        id:
+          type: string
+          description: Node identifier
+          example: 'nsc-1/tap0'
+        label:
+          type: string
+          description: Node label
+          example: 'tap0'
+        type:
+          type: string
+          description: Workload type
+          enum: [WGInterface, TapInterface, MEMIFInterface, IPSecInterface]
+          example: TapInterface
+        groupId:
+          type: string
+          description: Node group name
+          example: 'nsc-1'
+    GraphNodeGroup:
+      title: GraphNodeGroup
+      type: object
+      properties:
+        id:
+          type: string
+          description: Node group's identifier
+          example: 'nsc-1'
+        label:
+          type: string
+          description: Node group's label
+          example: 'nsc-1'
+        type:
+          type: string
+          description: Workload type
+          enum: [client, endpoint, forwarder, other]
+          example: client
+    GraphEdge:
+      title: GraphEdge
+      type: object
+      properties:
+        id:
+          type: string
+          description: Node edge identifier
+          example: 'nsc-1/tap0/fwd-1/tap0'
+        source:
+          type: string
+          description: Source node id
+          example: 'nsc-1/tap0'
+        target:
+          type: string
+          description: Target node id
+          example: 'fwd-1/tap0'
+        type:
+          type: string
+          description: Edge type
+          enum: [OrientedDataplane, UnorientedDataplane, NetworkService, RegistryService, CrossConnect, VL3Internal]
+          example: UnorientedDataplane
     WorkloadItem:
       title: WorkloadItem
       type: object
       properties:
         id:
-          type: integer
-          description: Internal parameter
-          format: int32
-          example: 200
+          type: string
+          description: Wokload identifier
+          example: 'nsc-1'
         name:
-          type: integer
-          description: Internal parameter
-          format: int32
-          example: 200
+          type: string
+          description: Wokload name
+          example: 'nsc-1'
         type:
-          type: integer
-          description: Internal parameter
-          format: int32
-          example: 200
-
-        
+          type: string
+          description: Workload type
+          enum: [client, endpoint, forwarder, other]
+          example: client
+        podName:
+          type: string
+          description: POD name
+          example: 'pod-1'
+        interfaces:
+          description: Network interfaces
+          type: array
+          items:
+            type: string
+          example: ["tap0", "tap1", "tap2"]
+        labels:
+          description: Workload labels (capacities, services)
+          type: array
+          items:
+            type: string
+          example: []
