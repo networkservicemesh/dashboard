@@ -1,0 +1,103 @@
+openapi: "3.0.2"
+info:
+  title: "NSM Dashboard API"
+  description: "API for getting data from NSM Dashboard backend to frontend"
+  version: "0.0.1"
+  contact:
+    name: "NSM Dashboard API"
+    email: "ivan.osipov@xored.com"
+  license:
+    name: "Apache License, Version 2.0, January 2004"
+    url: "https://www.apache.org/licenses/LICENSE-2.0"
+
+servers:
+- url: http://localhost/api
+
+paths:
+  /dataplane/graph:
+    get:
+      tags:
+      - Dataplane
+      - Graph
+      summary: Get Dataplane graph
+      description: Get Dataplane graph
+      operationId: GetDataplaneGraph
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                title: Sample
+                type: object
+                properties:
+                  placeholder:
+                    type: string
+                    description: Placeholder description
+
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: Weather not found
+                type: string
+                example: Not found
+  /workloads:
+    get:
+      tags:
+      - Workloads
+      summary: Get workload information
+      description: Get workload information
+      operationId: GetWokloadInfo
+      parameters:
+      - name: id
+        in: query
+        description: "Workload's identifier"
+        schema:
+          type: string
+      responses:
+        200:
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                title: Sample
+                type: object
+                properties:
+                  placeholder:
+                    type: string
+                    description: Placeholder description
+
+        404:
+          description: Not found response
+          content:
+            text/plain:
+              schema:
+                title: Workload not found
+                type: string
+                example: Not found
+
+components:
+  schemas:
+    WorkloadItem:
+      title: WorkloadItem
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Internal parameter
+          format: int32
+          example: 200
+        name:
+          type: integer
+          description: Internal parameter
+          format: int32
+          example: 200
+        type:
+          type: integer
+          description: Internal parameter
+          format: int32
+          example: 200
+
+        
